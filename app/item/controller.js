@@ -33,7 +33,7 @@ export default {
     const errors = validate(updatedItem);
     if (errors.length > 0) throw new Error(errors.join(" "));
 
-    await items.updateOne({ _id: id }, { $set: updatedItem });
+    await items.updateOne({ _id: objectId(id) }, { $set: updatedItem });
 
     return id;
   },

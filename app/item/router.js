@@ -11,7 +11,7 @@ router.get("/", async (_, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    if (!req.isAuth) throw new Error("Not authenticated");
+    if (!req.isAuth) res.status(401).json({ message: "Unauthorized" });
 
     const newItem = req.body;
     const id = await controller.create(newItem);
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    if (!req.isAuth) throw new Error("Not authenticated");
+    if (!req.isAuth) res.status(401).json({ message: "Unauthorized" });
 
     const { id } = req.params;
     const updatedItem = req.body;
@@ -38,7 +38,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    if (!req.isAuth) throw new Error("Not authenticated");
+    if (!req.isAuth) res.status(401).json({ message: "Unauthorized" });
 
     const { id } = req.params;
     await controller.delete(id);

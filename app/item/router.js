@@ -11,12 +11,15 @@ router.get("/", async (_, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    if (!req.isAuth) res.status(401).json({ message: "Unauthorized" });
+    if (req.isAuth) {
+      const newItem = req.body;
 
-    const newItem = req.body;
-    const id = await controller.create(newItem);
+      const id = await controller.create(newItem);
 
-    res.json({ id });
+      res.json({ id });
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -24,13 +27,15 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    if (!req.isAuth) res.status(401).json({ message: "Unauthorized" });
+    if (req.isAuth) {
+      const { id } = req.params;
+      const updatedItem = req.body;
+      await controller.update(id, updatedItem);
 
-    const { id } = req.params;
-    const updatedItem = req.body;
-    await controller.update(id, updatedItem);
-
-    res.json({ id });
+      res.json({ id });
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -38,12 +43,14 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    if (!req.isAuth) res.status(401).json({ message: "Unauthorized" });
+    if (req.isAuth) {
+      const { id } = req.params;
+      await controller.delete(id);
 
-    const { id } = req.params;
-    await controller.delete(id);
-
-    res.json({ id });
+      res.json({ id });
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -10,7 +10,11 @@ router.post("/register", async (req, res) => {
 
     res.json({ id });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error.message.includes("exists")) {
+      res.status(409).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
   }
 });
 

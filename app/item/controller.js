@@ -23,7 +23,7 @@ export default {
 
   async create(newItem) {
     const errors = validate(newItem);
-    if (errors.length > 0) throw new Error(errors.join(" "));
+    if (errors.length > 0) throw new Error(errors.join("\n"));
 
     const { insertedId } = await items.insertOne(newItem);
 
@@ -32,7 +32,7 @@ export default {
 
   async update(id, updatedItem) {
     const errors = validate(updatedItem);
-    if (errors.length > 0) throw new Error(errors.join(" "));
+    if (errors.length > 0) throw new Error(errors.join("\n"));
 
     await items.updateOne({ _id: objectId(id) }, { $set: updatedItem });
 

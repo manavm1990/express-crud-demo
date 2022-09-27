@@ -1,3 +1,4 @@
+import { ObjectId as objectId } from "mongodb";
 import Item from ".";
 import client from "../client";
 import config from "../config";
@@ -40,7 +41,7 @@ export default {
 
   async delete(id) {
     try {
-      await items.deleteOne({ _id: id });
+      await items.deleteOne({ _id: objectId(id) });
 
       return id;
     } catch (error) {
